@@ -1,0 +1,95 @@
+<!-- src/app/components/login/login.component.html -->
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card shadow-sm">
+          <div class="card-header text-center">
+            <h3>Login</h3>
+          </div>
+          <div class="card-body">
+            <!-- Display Global Error Message -->
+            <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+              {{ errorMessage }}
+            </div>
+  
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
+              <!-- Username Field -->
+              <div class="form-group mb-3">
+                <label for="username">Username</label>
+                <input
+                  type="text"
+                  id="username"
+                  formControlName="username"
+                  class="form-control"
+                  [ngClass]="{
+                    'is-invalid': isSubmitted && loginForm.get('username')?.invalid
+                  }"
+                  placeholder="Enter your username"
+                  autocomplete="username"
+                />
+                <!-- Validation Errors for Username -->
+                <div *ngIf="isSubmitted && loginForm.get('username')?.errors" class="invalid-feedback">
+                  <div *ngIf="loginForm.get('username')?.errors?.['required']">
+                    Username is required.
+                  </div>
+                  <div *ngIf="loginForm.get('username')?.errors?.['minlength']">
+                    Username must be at least 3 characters long.
+                  </div>
+                  <div *ngIf="loginForm.get('username')?.errors?.['maxlength']">
+                    Username cannot exceed 20 characters.
+                  </div>
+                </div>
+              </div>
+  
+              <!-- Password Field -->
+              <div class="form-group mb-3">
+                <label for="password">Password</label>
+                <div class="input-group">
+                  <input
+                    [type]="hidePassword ? 'password' : 'text'"
+                    id="password"
+                    formControlName="password"
+                    class="form-control"
+                    [ngClass]="{
+                      'is-invalid': isSubmitted && loginForm.get('password')?.invalid
+                    }"
+                    placeholder="Enter your password"
+                    autocomplete="current-password"
+                  />
+                  <button
+                    type="button"
+                    class="btn btn-outline-secondary"
+                    (click)="togglePasswordVisibility()"
+                    [attr.aria-label]="hidePassword ? 'Show password' : 'Hide password'"
+                  >
+                    <i [ngClass]="hidePassword ? 'bi bi-eye' : 'bi bi-eye-slash'"></i>
+                  </button>
+                 
+                </div>
+                <!-- Validation Errors for Password -->
+                <div *ngIf="loginForm.get('password')?.errors" class="invalid-feedback">
+                  <div *ngIf="loginForm.get('password')?.errors?.['required']">
+                    Password is required.
+                  </div>
+                  <div *ngIf="loginForm.get('password')?.errors?.['minlength']">
+                    Password must be at least 6 characters long.
+                  </div>
+                  <div *ngIf="loginForm.get('password')?.errors?.['maxlength']">
+                    Password cannot exceed 20 characters.
+                  </div>
+                </div>
+              </div>
+  
+              <!-- Submit Button -->
+              <button type="submit" class="btn btn-primary w-100">
+                {{ isSubmitting ? 'Logging in...' : 'Login' }}
+              </button>
+            </form>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  

@@ -1,0 +1,73 @@
+
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card shadow-sm">
+          <div class="card-header bg-primary text-white">
+            
+            
+              <div>
+                <h4 style="display: inline-block;"> Create a New Post </h4> 
+                &nbsp;
+                <button *ngIf="!isEditFlag" class="btn btn-secondary" (click)="goBack()" aria-label="Go Back">
+                  <i class="bi bi-arrow-left"></i>
+                </button>
+              </div>
+          
+                 
+           
+          </div>
+          <div class="card-body">
+            <!-- Success Message -->
+            <div *ngIf="successMessage" class="alert alert-success" role="alert">
+              {{ successMessage }}
+            </div>
+
+            <!-- Error Message -->
+            <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+              {{ errorMessage }}
+            </div>
+
+            <form [formGroup]="postForm" (ngSubmit)="onSubmit()" novalidate>
+
+
+              <!-- Content Field -->
+              <div class="form-group mb-3">
+                <label for="content">Content</label>
+                <textarea
+                  id="content"
+                  formControlName="content"
+                  class="form-control"
+                  rows="8"
+                  [ngClass]="{
+                    'is-invalid': isSubmitted && postForm.get('content')?.invalid
+                  }"
+                  placeholder="Write your post content here..."
+                ></textarea>
+                <!-- Validation Errors for Content -->
+                <div *ngIf="isSubmitted && postForm.get('content')?.errors" class="invalid-feedback">
+                  <div *ngIf="postForm.get('content')?.errors?.['required']">
+                    Content is required.
+                  </div>
+                  <div *ngIf="postForm.get('content')?.errors?.['minlength']">
+                    Content must be at least 20 characters long.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Submit Button -->
+                         <!-- [disabled]="postForm.invalid || isSubmitting" -->
+              <button
+                type="submit"
+                class="btn btn-success w-100"
+      
+              >
+                {{ isSubmitting ? 'Submitting...' : 'Post' }}
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
